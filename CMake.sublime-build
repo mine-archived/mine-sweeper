@@ -1,0 +1,15 @@
+// http://stackoverflow.com/questions/23789410/how-to-edit-sublime-text-build-settings
+{
+    "shell_cmd": "cmake .. && make -j8",
+    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+    "working_dir": "${file_path}/build",
+    "selector": "source.c, source.c++",
+
+    "variants":
+    [
+        {
+            "name": "Run",
+            "cmd": ""
+        }
+    ]
+}
