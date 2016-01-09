@@ -134,6 +134,12 @@ int main( void )
 				(void*)0            // array buffer offset
 		);
 
+    // 更新uniform颜色
+    GLfloat timeValue = glfwGetTime();
+    GLfloat greenValue =  (sin(timeValue) / 2) + 0.5;
+    GLint vertexColorLocation = glGetUniformLocation(programID, "ourColor");
+    glUniform3f(vertexColorLocation, 0.0f, greenValue, 0.0f);
+
 		// Draw the triangle !
 		// glDrawArrays(GL_TRIANGLES, 0, 3*2); // 3 indices starting at 0 -> 1 triangle
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
