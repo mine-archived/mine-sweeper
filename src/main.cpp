@@ -73,7 +73,7 @@ int main( void )
 
 	// Camera matrix
 	glm::mat4 View       = glm::lookAt(
-			glm::vec3(4,4,3), // Camera is at (4,3,3), in World Space
+			glm::vec3(0,0,3), // Camera is at (4,3,3), in World Space
 			glm::vec3(0,0,0), // and looks at the origin
 			glm::vec3(0,1,0)  // Head is up (set to 0,-1,0 to look upside-down)
 	);
@@ -83,9 +83,15 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
 	static const GLfloat g_vertex_buffer_data[] = {
-			-1.0f, -1.0f, 0.0f,
-			1.0f, -1.0f, 0.0f,
-			0.0f,  1.0f, 0.0f,
+		// 第一个三角形
+    0.5f, 0.5f, 0.0f,   // 右上角
+    0.5f, -0.5f, 0.0f,  // 右下角
+    -0.5f, 0.5f, 0.0f,  // 左上角
+
+    // 第二个三角形
+    0.5f, -0.5f, 0.0f,  // 右下角
+    -0.5f, -0.5f, 0.0f, // 左下角
+    -0.5f, 0.5f, 0.0f   // 左上角
 	};
 //	static const GLushort g_element_buffer_data[] = { 0, 1, 2 };
 
@@ -119,7 +125,7 @@ int main( void )
 		);
 
 		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle
+		glDrawArrays(GL_TRIANGLES, 0, 3*2); // 3 indices starting at 0 -> 1 triangle
 
 		glDisableVertexAttribArray(0);
 
