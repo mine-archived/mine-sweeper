@@ -89,9 +89,9 @@ int main( void )
     -0.5f, 0.5f, 0.0f,  // 左上角
 
     // 第二个三角形
-    0.5f, -0.5f, 0.0f,  // 右下角
+    // 0.5f, -0.5f, 0.0f,  // 右下角
     -0.5f, -0.5f, 0.0f, // 左下角
-    -0.5f, 0.5f, 0.0f   // 左上角
+    // -0.5f, 0.5f, 0.0f   // 左上角
 	};
 //	static const GLushort g_element_buffer_data[] = { 0, 1, 2 };
 
@@ -99,6 +99,16 @@ int main( void )
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+	GLuint indices[] = {
+		0, 1, 2,
+		1, 2, 3
+	};
+	GLuint EBO;
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 	do{
 
@@ -125,7 +135,8 @@ int main( void )
 		);
 
 		// Draw the triangle !
-		glDrawArrays(GL_TRIANGLES, 0, 3*2); // 3 indices starting at 0 -> 1 triangle
+		// glDrawArrays(GL_TRIANGLES, 0, 3*2); // 3 indices starting at 0 -> 1 triangle
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glDisableVertexAttribArray(0);
 
