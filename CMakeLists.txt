@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(mine-sweeper)
 
-add_executable(mine-sweeper src/main.cpp include/shader.hpp src/shader.cpp)
+add_executable(mine-sweeper src/main.cpp include/shader.hpp src/shader.cpp
+  deps/lodepng.cpp)
 include_directories(include)
+include_directories(deps)
 
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

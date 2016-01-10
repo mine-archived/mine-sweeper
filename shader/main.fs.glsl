@@ -1,15 +1,13 @@
 #version 330 core
 
-// Ouput data
-out vec3 color;
+in vec2 TexCoord;
 
-uniform vec3 ourColor; //在程序代码中设置
+out vec4 color;
+
+uniform vec3 ourColor;
+uniform sampler2D ourTexture;
 
 void main()
 {
-
-	// Output color = red
-	// color = vec3(1,0,0);
-  color = ourColor;
-
+  color = texture(ourTexture, TexCoord);
 }

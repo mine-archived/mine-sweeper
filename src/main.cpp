@@ -16,6 +16,7 @@ GLFWwindow* window;
 using namespace glm;
 
 #include <shader.hpp>
+#include <lodepng.h>
 
 int main( void )
 {
@@ -83,17 +84,12 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
 	static const GLfloat g_vertex_buffer_data[] = {
-		// 第一个三角形
-    0.5f, 0.5f, 0.0f,   // 右上角
+		// 第一个矩形
+    0.5f, 0.5f, 0.0f,  // 右上角
     0.5f, -0.5f, 0.0f,  // 右下角
     -0.5f, 0.5f, 0.0f,  // 左上角
-
-    // 第二个三角形
-    // 0.5f, -0.5f, 0.0f,  // 右下角
-    -0.5f, -0.5f, 0.0f, // 左下角
-    // -0.5f, 0.5f, 0.0f   // 左上角
+    -0.5f, -0.5f, 0.0f // 左下角
 	};
-//	static const GLushort g_element_buffer_data[] = { 0, 1, 2 };
 
 	GLuint vertexbuffer;
 	glGenBuffers(1, &vertexbuffer);
@@ -108,9 +104,32 @@ int main( void )
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	
+	// 4 bytes per pixel, ordered RGBARGBA
+	std::vector<unsigned char> image;
+	unsigned width, height;
+	std::string filename("foo.png");
+	unsigned error = lodepng::decode(image, width, height, filename);
+	if (error) {
+		std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
+		return -1;
+	}
 
-	do{
+	GLfloat texCoords[] = {
+		0.0f, 0.0f, // Left down
+		0.0f, 1.0f, // Left up
+		1.0f, 0.0f, // Right down
+		1.0f, 1.0f // Right up
+	};
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image.front());
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	do {
 
 		// Clear the screen
 		glClear( GL_COLOR_BUFFER_BIT );
@@ -140,8 +159,17 @@ int main( void )
     GLint vertexColorLocation = glGetUniformLocation(programID, "ourColor");
     glUniform3f(vertexColorLocation, 0.0f, greenValue, 0.0f);
 
-		// Draw the triangle !
-		// glDrawArrays(GL_TRIANGLES, 0, 3*2); // 3 indices starting at 0 -> 1 triangle
+    // Texture
+    glVertexAttribPointer(
+    	2,
+    	2,
+    	GL_FLOAT,GL_FALSE,
+    	8 * sizeof(GLfloat),
+    	(GLvoid*)(6 * sizeof(GLfloat))
+    );
+    glEnableVertexAttribArray(2);
+
+		// Draw the square!
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glDisableVertexAttribArray(0);
