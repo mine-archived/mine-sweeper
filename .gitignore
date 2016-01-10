@@ -1,6 +1,9 @@
 # CMake
 build/
 
+# Idea IDE
+.idea/
+
 # Compiled Object files
 *.slo
 *.lo

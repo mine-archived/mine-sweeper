@@ -162,10 +162,10 @@ int main( void )
     // Texture
     glVertexAttribPointer(
     	2,
-    	2,
+    	3,
     	GL_FLOAT,GL_FALSE,
-    	8 * sizeof(GLfloat),
-    	(GLvoid*)(6 * sizeof(GLfloat))
+    	0 * sizeof(GLfloat),
+    	(GLvoid*)0
     );
     glEnableVertexAttribArray(2);
 
