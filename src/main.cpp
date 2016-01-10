@@ -84,11 +84,11 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
 	static const GLfloat g_vertex_buffer_data[] = {
-		// 第一个矩形
-    0.5f, 0.5f, 0.0f,  // 右上角
-    0.5f, -0.5f, 0.0f,  // 右下角
-    -0.5f, 0.5f, 0.0f,  // 左上角
-    -0.5f, -0.5f, 0.0f // 左下角
+		// 矩形顶点					 纹理坐标
+		0.5f, 0.5f, 0.0f,  1.0f, 1.0f, // Right up // 右上角
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // Right down  // 右下角
+		-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, // Left down // 左上角
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // Left up // 左下角
 	};
 
 	GLuint vertexbuffer;
@@ -115,12 +115,6 @@ int main( void )
 		return -1;
 	}
 
-	GLfloat texCoords[] = {
-		0.0f, 0.0f, // Left down
-		0.0f, 1.0f, // Left up
-		1.0f, 0.0f, // Right down
-		1.0f, 1.0f // Right up
-	};
 	GLuint texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -149,7 +143,7 @@ int main( void )
 				3,                  // size
 				GL_FLOAT,           // type
 				GL_FALSE,           // normalized?
-				0,                  // stride
+				5 * sizeof(GLfloat),// stride
 				(void*)0            // array buffer offset
 		);
 
@@ -160,14 +154,15 @@ int main( void )
     glUniform3f(vertexColorLocation, 0.0f, greenValue, 0.0f);
 
     // Texture
+		glEnableVertexAttribArray(1);
     glVertexAttribPointer(
-    	2,
-    	3,
-    	GL_FLOAT,GL_FALSE,
-    	0 * sizeof(GLfloat),
-    	(GLvoid*)0
+    	1,
+    	2, // size
+    	GL_FLOAT,
+			GL_FALSE,
+    	5 * sizeof(GLfloat),  // stride
+    	(GLvoid*)(3 * sizeof(GLfloat)) // offset
     );
-    glEnableVertexAttribArray(2);
 
 		// Draw the square!
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
