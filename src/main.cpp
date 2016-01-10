@@ -84,11 +84,11 @@ int main( void )
 	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
 
 	static const GLfloat g_vertex_buffer_data[] = {
-		// 矩形顶点					 纹理坐标
-		0.5f, 0.5f, 0.0f,  1.0f, 1.0f, // Right up // 右上角
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // Right down  // 右下角
-		-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, // Left down // 左上角
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // Left up // 左下角
+		// 矩形顶点					 纹理坐标(我怀疑lodepng返回数组image颠倒了)
+		0.5f, 0.5f, 0.0f,  1.0f, 0.0f, // 右上角
+		0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // 右下角
+		-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, // 左上角
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f,// 左下角
 	};
 
 	GLuint vertexbuffer;
