@@ -17,6 +17,7 @@ using namespace glm;
 
 #include <shader.hpp>
 #include <lodepng.h>
+#include "utils.h"
 
 int main( void )
 {
@@ -85,10 +86,10 @@ int main( void )
 
 	static const GLfloat g_vertex_buffer_data[] = {
 		// 矩形顶点					 纹理坐标(我怀疑lodepng返回数组image颠倒了)
-		0.5f, 0.5f, 0.0f,  1.0f, 0.0f, // 右上角
-		0.5f, -0.5f, 0.0f, 1.0f, 1.0f, // 右下角
-		-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, // 左上角
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f,// 左下角
+		0.5f, 0.5f, 0.0f,  1.0f, 1.0f, // 右上角
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // 右下角
+		-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, // 左上角
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,// 左下角
 	};
 
 	GLuint vertexbuffer;
@@ -105,22 +106,13 @@ int main( void )
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	
-	// 4 bytes per pixel, ordered RGBARGBA
-	std::vector<unsigned char> image;
-	unsigned width, height;
-	std::string filename("foo.png");
-	unsigned error = lodepng::decode(image, width, height, filename);
-	if (error) {
-		std::cout << "decoder error " << error << ": " << lodepng_error_text(error) << std::endl;
-		return -1;
-	}
-
 	GLuint texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image.front());
+	std::string filename("foo.png");
+
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	do {
