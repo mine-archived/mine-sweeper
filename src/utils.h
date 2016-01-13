@@ -8,6 +8,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <algorithm>
 #include <lodepng.h>
 #include <GL/glew.h>
 
