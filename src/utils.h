@@ -11,12 +11,14 @@
 #include <lodepng.h>
 #include <GL/glew.h>
 
+using png_t = std::vector<unsigned char>;
+
 class utils {
 public:
 		static void load_png_texture(std::string file_name);
 
 private:
-		static void flip_image_vertical(std::vector<unsigned char> *data, unsigned int width, unsigned int height);
+		static png_t flip_image_vertical(png_t data, unsigned int width, unsigned int height);
 };
 
 

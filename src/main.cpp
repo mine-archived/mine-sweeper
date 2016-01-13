@@ -112,6 +112,7 @@ int main( void )
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_NEAREST);
 	std::string filename("foo.png");
+	utils::load_png_texture(filename);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
