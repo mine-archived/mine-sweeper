@@ -17,13 +17,16 @@ using namespace glm;
 
 #include <shader.hpp>
 #include <lodepng.h>
+#include <iostream>
 #include "utils.h"
 
-int main( void )
+int main()
 {
 	// Initialise GLFW
-	if( !glfwInit() )
+	int ec = glfwInit();
+	if( ec )
 	{
+		std::cout << ec << std::endl;
 		fprintf( stderr, "Failed to initialize GLFW\n" );
 		getchar();
 		return -1;
